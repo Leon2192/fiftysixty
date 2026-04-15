@@ -1,32 +1,24 @@
 import { useRef, useState, useEffect } from "react";
-import { Box, useMediaQuery, useTheme, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import PauseIcon from "@mui/icons-material/Pause";
 import { useInView } from "react-intersection-observer";
 
 const Hero = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const desktopImage = "/images/15/portada.jpeg";
-  const mobileImage = "/images/15/portada.jpeg";
+  const imageSrc = "/images/15/portada.jpeg";
 
-  // ref para el elemento audio
   const audioRef = useRef(null);
-  // estado para el icono/play–pause
   const [isPlaying, setIsPlaying] = useState(true);
 
-  // ref de intersección, renombrado a avoid collision
   const { ref: viewRef } = useInView({
     triggerOnce: true,
     threshold: 0.2,
   });
 
-  // arrancamos la música al montar
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.play().catch(() => {
-        // si el autoplay falla
         setIsPlaying(false);
       });
     }
@@ -49,18 +41,27 @@ const Hero = () => {
       ref={viewRef}
       sx={{
         position: "relative",
-        height: "100vh",
-        width: "100vw",
-        backgroundImage: `url(${isMobile ? mobileImage : desktopImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        width: "100%",
+        height: "100dvh",
         overflow: "hidden",
+        backgroundColor: "#000",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      {/* Botón de música */}
+      <Box
+        component="img"
+        src={imageSrc}
+        alt="Portada"
+        sx={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          display: "block",
+        }}
+      />
+
       <IconButton
         onClick={toggleAudio}
         sx={{
@@ -71,14 +72,15 @@ const Hero = () => {
           color: "#000",
           width: 50,
           height: 50,
-          "&:hover": { backgroundColor: "rgba(255,255,255,0.9)" },
+          "&:hover": {
+            backgroundColor: "rgba(255,255,255,0.9)",
+          },
           zIndex: 3,
         }}
       >
         {isPlaying ? <PauseIcon /> : <MusicNoteIcon />}
       </IconButton>
 
-      {/* Audio autoplay + loop */}
       <audio
         ref={audioRef}
         src="/cancion1.mp3"
@@ -87,7 +89,6 @@ const Hero = () => {
         loop
       />
 
-      {/* Flecha animada */}
       <Box
         sx={{
           position: "absolute",
@@ -111,7 +112,10 @@ const Hero = () => {
       >
         <a href="#info" style={{ color: "inherit" }}>
           <KeyboardArrowDownIcon
-            sx={{ fontSize: { xs: "4rem", md: "5rem" }, color: "#000" }}
+            sx={{
+              fontSize: { xs: "4rem", md: "5rem" },
+              color: "#000",
+            }}
           />
         </a>
       </Box>
