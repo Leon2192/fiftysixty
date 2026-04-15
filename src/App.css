@@ -1,0 +1,33 @@
+/* App.css o index.css */
+/* index.css */
+@import url('https://fonts.googleapis.com/css2?family=Catchy+Mager&display=swap');
+
+/* luego tus estilos… */
+
+@font-face {
+  font-family: "Catchy Mager";
+  src: url("/fonts/catchy-mager.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.swiper-pagination-bullet {
+  background: white !important;
+  opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+  background: white !important;
+  opacity: 1;
+}
+

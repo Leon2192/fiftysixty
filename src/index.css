@@ -1,0 +1,15 @@
+
+
+@font-face {
+  font-family: "Catchy Mager";
+  src: url("/fonts/catchy-mager.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* luego tus estilos… */
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
