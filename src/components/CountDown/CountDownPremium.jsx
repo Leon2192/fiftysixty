@@ -29,7 +29,12 @@ const Countdown = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const unidades = Object.entries(timeLeft);
+  const unidades = [
+    { label: "Dias", value: timeLeft.dias },
+    { label: "Horas", value: timeLeft.horas },
+    { label: "Minutos", value: timeLeft.minutos },
+    { label: "Segundos", value: timeLeft.segundos },
+  ];
 
   const { ref, inView } = useInView({
     triggerOnce: true,
@@ -41,25 +46,26 @@ const Countdown = () => {
       ref={ref}
       id="info"
       sx={{
-        minHeight: "60vh",
-        py: 4,
-        backgroundColor: "#fff",
+        minHeight: "56vh",
+        py: { xs: 6, md: 8 },
+        px: 2,
+        background:
+          "linear-gradient(180deg, var(--bg-main) 0%, var(--surface-soft) 100%)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
-        px: 2,
       }}
     >
       <Slide in={inView} direction="up" timeout={800}>
         <Typography
           sx={{
-            fontSize: { xs: "1.5rem", md: "2.5rem" },
-            fontFamily: "'Catchy Mager', cursive",
-            fontWeight: 500,
-            mb: 2,
-            color: "#222",
+            fontSize: { xs: "1.55rem", md: "2.5rem" },
+            fontFamily: "var(--font-title)",
+            fontWeight: 600,
+            mb: 3,
+            color: "var(--text-primary)",
           }}
         >
           Quedan solo...
@@ -67,16 +73,26 @@ const Countdown = () => {
       </Slide>
 
       <Fade in={inView} timeout={1200}>
-        <Grid container spacing={2} justifyContent="center">
-          {unidades.map(([unit, value]) => (
-            <Grid item key={unit}>
-              <Box textAlign="center">
+        <Grid container spacing={{ xs: 1.2, sm: 2 }} justifyContent="center">
+          {unidades.map(({ label, value }) => (
+            <Grid item xs={6} sm={3} key={label}>
+              <Box
+                textAlign="center"
+                sx={{
+                  py: { xs: 1.6, sm: 2.4 },
+                  px: { xs: 1.2, sm: 2.2 },
+                  borderRadius: 3,
+                  border: "1px solid var(--line-color)",
+                  backgroundColor: "rgba(255,255,255,0.75)",
+                  boxShadow: "0 10px 22px rgba(60, 45, 28, 0.08)",
+                }}
+              >
                 <Typography
                   sx={{
-                    fontSize: { xs: "2rem", md: "4rem" },
-                    fontWeight: "bold",
-                    color: "#222",
-                    fontFamily: "'Catchy Mager', cursive",
+                    fontSize: { xs: "1.9rem", md: "3.4rem" },
+                    fontWeight: 700,
+                    color: "var(--text-primary)",
+                    fontFamily: "var(--font-title)",
                   }}
                 >
                   {String(value).padStart(2, "0")}
@@ -84,13 +100,15 @@ const Countdown = () => {
 
                 <Typography
                   sx={{
-                    textTransform: "capitalize",
-                    fontSize: { xs: "0.8rem", md: "1.2rem" },
-                    fontFamily: "'Catchy Mager', cursive",
-                    color: "#555",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                    fontSize: { xs: "0.74rem", md: "0.84rem" },
+                    fontWeight: 600,
+                    fontFamily: "var(--font-body)",
+                    color: "var(--text-secondary)",
                   }}
                 >
-                  {unit}
+                  {label}
                 </Typography>
               </Box>
             </Grid>

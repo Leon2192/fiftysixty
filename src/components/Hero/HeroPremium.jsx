@@ -5,11 +5,11 @@ import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import PauseIcon from "@mui/icons-material/Pause";
 import { useInView } from "react-intersection-observer";
 
-const Hero = () => {
+const Hero = ({ enableMusic }) => {
   const imageSrc = "/images/15/portada.jpeg";
 
   const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const { ref: viewRef } = useInView({
     triggerOnce: true,
@@ -17,12 +17,20 @@ const Hero = () => {
   });
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.play().catch(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (enableMusic) {
+      audio.play().then(() => setIsPlaying(true)).catch(() => {
         setIsPlaying(false);
       });
+      return;
     }
-  }, []);
+
+    audio.pause();
+    audio.currentTime = 0;
+    setIsPlaying(false);
+  }, [enableMusic]);
 
   const toggleAudio = () => {
     const audio = audioRef.current;
@@ -32,7 +40,9 @@ const Hero = () => {
       audio.pause();
       setIsPlaying(false);
     } else {
-      audio.play().then(() => setIsPlaying(true));
+      audio.play().then(() => setIsPlaying(true)).catch(() => {
+        setIsPlaying(false);
+      });
     }
   };
 
@@ -44,7 +54,7 @@ const Hero = () => {
         width: "100%",
         height: "100dvh",
         overflow: "hidden",
-        backgroundColor: "#000",
+        backgroundColor: "var(--bg-dark)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -57,23 +67,35 @@ const Hero = () => {
         sx={{
           width: "100%",
           height: "100%",
-          objectFit: "contain",
+          objectFit: "cover",
+          objectPosition: "center",
           display: "block",
+        }}
+      />
+
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom, rgba(12, 9, 8, 0.16) 0%, rgba(12, 9, 8, 0.55) 100%)",
+          zIndex: 1,
         }}
       />
 
       <IconButton
         onClick={toggleAudio}
+        aria-label={isPlaying ? "Pausar musica" : "Reproducir musica"}
         sx={{
           position: "absolute",
           top: 20,
           right: 20,
-          backgroundColor: "rgba(255,255,255,0.7)",
-          color: "#000",
+          backgroundColor: "rgba(255, 252, 247, 0.88)",
+          color: "var(--text-primary)",
           width: 50,
           height: 50,
           "&:hover": {
-            backgroundColor: "rgba(255,255,255,0.9)",
+            backgroundColor: "rgba(255, 252, 247, 1)",
           },
           zIndex: 3,
         }}
@@ -85,7 +107,6 @@ const Hero = () => {
         ref={audioRef}
         src="/cancion1.mp3"
         preload="auto"
-        autoPlay
         loop
       />
 
@@ -113,8 +134,8 @@ const Hero = () => {
         <a href="#info" style={{ color: "inherit" }}>
           <KeyboardArrowDownIcon
             sx={{
-              fontSize: { xs: "4rem", md: "5rem" },
-              color: "#000",
+              fontSize: { xs: "3.5rem", md: "4.2rem" },
+              color: "#fff",
             }}
           />
         </a>

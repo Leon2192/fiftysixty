@@ -1,236 +1,284 @@
-import {
-  Box,
-  Grid,
-  Typography,
-  IconButton,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Grid, Typography, IconButton, Dialog, DialogContent } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState, useRef } from "react";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
-import { Keyboard, Navigation, Pagination } from "swiper/modules";
+import { Keyboard } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/keyboard";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 
 const images = [
-  "/images/15/fotito.jpeg",
-  "/images/15/fotito.jpeg",
-  "/images/15/fotito.jpeg",
-  "/images/15/fotito.jpeg",
-  "/images/15/fotito.jpeg",
-  "/images/15/fotito.jpeg",
+  "/images/15/one.jpeg",
+  "/images/15/two.jpeg",
+  "/images/15/three.jpeg",
+  "/images/15/four.jpeg",
 ];
 
 const Gallery = () => {
   const [open, setOpen] = useState(false);
-  const [startIndex, setStartIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
+  const { ref } = useInView({ triggerOnce: true, threshold: 0.15 });
 
-  const handleOpen = (index) => {
-    setStartIndex(index);
+  const openAt = (index) => {
+    setActiveIndex(index);
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const closeLightbox = () => {
     setOpen(false);
   };
 
-  const { ref } = useInView({ triggerOnce: true, threshold: 0.1 });
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  useEffect(() => {
+    if (open && swiperRef.current) {
+      swiperRef.current.slideTo(activeIndex, 0);
+    }
+  }, [open, activeIndex]);
 
   return (
     <Box
       ref={ref}
+      id="galeria"
       sx={{
-        py: 8,
+        py: { xs: 6, md: 8 },
         px: 2,
-       // backgroundColor: "#9a64ea",
-        maxWidth: "1200px",
-        mx: "auto",
+        backgroundColor: "var(--surface-main)",
       }}
     >
-      <Typography
-        variant="h3"
-        sx={{
-          mb: 4,
-          textAlign: "center",
-          fontFamily: "'Catchy Mager', cursive",
-          fontWeight: "bold",
-          color: "#333",
-        }}
-      >
-        Galería
-      </Typography>
-      
-      {isMobile ? (
-        <Swiper
-          modules={[Keyboard, Navigation, Pagination]}
-          navigation={!isMobile} // <== solo desktop
-        
-          pagination={{ clickable: true }}
-          keyboard
-          spaceBetween={12}
-          slidesPerView={1}
-          style={{ width: "100%" }}
+      <Box sx={{ maxWidth: 980, mx: "auto" }}>
+        <Typography
+          sx={{
+            mb: { xs: 2.5, md: 3.2 },
+            textAlign: "center",
+            fontFamily: "var(--font-title)",
+            fontSize: { xs: "2rem", md: "2.45rem" },
+            color: "var(--text-primary)",
+          }}
         >
+          Galeria
+        </Typography>
+
+        <Typography
+          sx={{
+            mb: { xs: 3, md: 4 },
+            textAlign: "center",
+            fontFamily: "var(--font-body)",
+            fontSize: { xs: "0.95rem", md: "1rem" },
+            color: "var(--text-secondary)",
+          }}
+        >
+          Un resumen de los momentos que vamos a celebrar.
+        </Typography>
+
+        <Grid container spacing={{ xs: 1.2, sm: 2 }}>
           {images.map((src, index) => (
-            <SwiperSlide key={index}>
+            <Grid item xs={6} key={src}>
               <Box
-                component="img"
-                src={src}
-                alt={`Imagen ${index + 1}`}
-                onClick={() => handleOpen(index)}
+                component="button"
+                type="button"
+                onClick={() => openAt(index)}
+                aria-label={`Abrir imagen ${index + 1}`}
                 sx={{
+                  p: 0,
+                  border: "none",
                   width: "100%",
-                  height: 240,
-                  objectFit: "cover",
-                  borderRadius: 2,
+                  borderRadius: { xs: 2.2, sm: 3.1 },
+                  overflow: "hidden",
+                  backgroundColor: "transparent",
                   cursor: "pointer",
-                }}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        // DESKTOP: Grid
-        <Grid container spacing={2}>
-          {images.map((src, index) => (
-            <Grid item key={index} xs={12} sm={6} md={6}>
-              <Box
-                component="img"
-                src={src}
-                alt={`Imagen ${index + 1}`}
-                onClick={() => handleOpen(index)}
-                sx={{
-                  width: "100%",
-                  height: 250,
-                  objectFit: "cover",
-                  borderRadius: 2,
-                  cursor: "pointer",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                  boxShadow: "0 12px 24px rgba(54, 37, 23, 0.12)",
+                  transition: "transform 0.25s ease, box-shadow 0.25s ease",
                   "&:hover": {
-                    transform: "scale(1.05)",
-                    boxShadow: 3,
+                    transform: { sm: "translateY(-2px)" },
+                    boxShadow: "0 14px 28px rgba(54, 37, 23, 0.2)",
                   },
                 }}
-              />
+              >
+                <Box
+                  component="img"
+                  src={src}
+                  alt={`Imagen ${index + 1}`}
+                  loading="lazy"
+                  sx={{
+                    width: "100%",
+                    aspectRatio: "4 / 5",
+                    objectFit: "cover",
+                    display: "block",
+                    filter: "saturate(0.96)",
+                  }}
+                />
+              </Box>
             </Grid>
           ))}
         </Grid>
-      )}
+      </Box>
 
-      {/* MODAL LIGHTBOX */}
-      {open && (
-        <Box
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "rgba(0,0,0,0.95)",
-            zIndex: 9999,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            p: { xs: 1, sm: 2 },
-          }}
-        >
-          <Box
+      <Dialog
+        open={open}
+        onClose={closeLightbox}
+        fullWidth
+        maxWidth="lg"
+        sx={{
+          "& .MuiBackdrop-root": {
+            backgroundColor: "rgba(14, 10, 8, 0.88)",
+          },
+        }}
+        PaperProps={{
+          sx: {
+            overflow: "hidden",
+            borderRadius: { xs: 2.2, sm: 3.2 },
+            background:
+              "linear-gradient(180deg, rgba(31, 22, 17, 0.98) 0%, rgba(25, 18, 14, 0.98) 100%)",
+            border: "1px solid rgba(255,255,255,0.11)",
+            boxShadow: "0 28px 60px rgba(0, 0, 0, 0.45)",
+          },
+        }}
+      >
+        <DialogContent sx={{ p: { xs: 1.2, sm: 2.1 }, position: "relative" }}>
+          <IconButton
+            onClick={closeLightbox}
+            aria-label="Cerrar galeria"
             sx={{
-              position: "relative",
-              width: "100%",
-              maxWidth: { xs: "100%", sm: "90%", md: "900px" },
-              mx: "auto",
+              position: "absolute",
+              top: { xs: 8, sm: 12 },
+              right: { xs: 8, sm: 12 },
+              color: "#fff",
+              bgcolor: "rgba(255,255,255,0.14)",
+              zIndex: 10,
+              "&:hover": {
+                bgcolor: "rgba(255,255,255,0.22)",
+              },
             }}
           >
-            {/* Cerrar */}
-            <CloseIcon
-              onClick={handleClose}
-              sx={{
-                position: "absolute",
-                top: { xs: 8, sm: 16 },
-                right: { xs: 8, sm: 16 },
-                fontSize: { xs: 24, sm: 30 },
-                color: "#fff",
-                cursor: "pointer",
-                zIndex: 10000,
-                "&:hover": {
-                  color: "#d1c4e9",
-                },
-              }}
-            />
+            <CloseIcon />
+          </IconButton>
 
-            {/* Flechas lightbox */}
-            <IconButton
-              onClick={() => swiperRef.current?.slidePrev()}
-              sx={{
-                position: "absolute",
-                left: { xs: 4, sm: -40 },
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#fff",
-                backgroundColor: "rgba(255,255,255,0.1)",
-                "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
-                zIndex: 10000,
-                fontSize: 20,
-              }}
-            >
-              <ArrowBackIosNewIcon fontSize="small" />
-            </IconButton>
+          <IconButton
+            onClick={() => swiperRef.current?.slidePrev()}
+            aria-label="Imagen anterior"
+            sx={{
+              position: "absolute",
+              top: "45%",
+              left: { xs: 6, sm: 14 },
+              color: "#fff",
+              bgcolor: "rgba(255,255,255,0.12)",
+              zIndex: 8,
+              "&:hover": {
+                bgcolor: "rgba(255,255,255,0.22)",
+              },
+            }}
+          >
+            <ArrowBackIosNewRoundedIcon fontSize="small" />
+          </IconButton>
 
-            <IconButton
-              onClick={() => swiperRef.current?.slideNext()}
-              sx={{
-                position: "absolute",
-                right: { xs: 4, sm: -40 },
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#fff",
-                backgroundColor: "rgba(255,255,255,0.1)",
-                "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
-                zIndex: 10000,
-                fontSize: 20,
-              }}
-            >
-              <ArrowForwardIosIcon fontSize="small" />
-            </IconButton>
+          <IconButton
+            onClick={() => swiperRef.current?.slideNext()}
+            aria-label="Imagen siguiente"
+            sx={{
+              position: "absolute",
+              top: "45%",
+              right: { xs: 6, sm: 14 },
+              color: "#fff",
+              bgcolor: "rgba(255,255,255,0.12)",
+              zIndex: 8,
+              "&:hover": {
+                bgcolor: "rgba(255,255,255,0.22)",
+              },
+            }}
+          >
+            <ArrowForwardIosRoundedIcon fontSize="small" />
+          </IconButton>
 
-            {/* Swiper modal */}
-            <Swiper
-              initialSlide={startIndex}
-              keyboard
-              onSwiper={(swiper) => (swiperRef.current = swiper)}
-              modules={[Keyboard]}
-              style={{ width: "100%" }}
-            >
-              {images.map((src, index) => (
-                <SwiperSlide key={index}>
+          <Swiper
+            keyboard
+            modules={[Keyboard]}
+            initialSlide={activeIndex}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+            }}
+            onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+          >
+            {images.map((src, index) => (
+              <SwiperSlide key={`lightbox-${src}`}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    minHeight: { xs: "62vh", md: "70vh" },
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    px: { xs: 4.2, sm: 7 },
+                    py: { xs: 2.2, sm: 3.5 },
+                  }}
+                >
                   <Box
                     component="img"
                     src={src}
                     alt={`Slide ${index + 1}`}
                     sx={{
                       width: "100%",
-                      maxHeight: { xs: "80vh", sm: "90vh" },
+                      maxHeight: "100%",
                       objectFit: "contain",
-                      borderRadius: 2,
+                      borderRadius: 2.2,
+                      border: "1px solid rgba(255,255,255,0.18)",
                     }}
                   />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                </Box>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+              gap: 1,
+              px: { xs: 1, sm: 2.5 },
+              pb: { xs: 0.2, sm: 0.9 },
+            }}
+          >
+            {images.map((src, index) => {
+              const isActive = activeIndex === index;
+              return (
+                <Box
+                  component="button"
+                  type="button"
+                  key={`thumb-${src}`}
+                  onClick={() => swiperRef.current?.slideTo(index)}
+                  aria-label={`Ir a imagen ${index + 1}`}
+                  sx={{
+                    p: 0,
+                    border: "none",
+                    borderRadius: 1.3,
+                    overflow: "hidden",
+                    cursor: "pointer",
+                    outline: isActive ? "2px solid #fff" : "1px solid rgba(255,255,255,0.2)",
+                    opacity: isActive ? 1 : 0.62,
+                    transition: "opacity 0.2s ease",
+                    "&:hover": {
+                      opacity: 1,
+                    },
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={src}
+                    alt={`Miniatura ${index + 1}`}
+                    sx={{
+                      width: "100%",
+                      aspectRatio: "4 / 3",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
+                </Box>
+              );
+            })}
           </Box>
-        </Box>
-      )}
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };
