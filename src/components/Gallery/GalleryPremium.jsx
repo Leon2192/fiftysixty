@@ -20,7 +20,7 @@ const Gallery = () => {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
-  const { ref } = useInView({ triggerOnce: true, threshold: 0.15 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
 
   const openAt = (index) => {
     setActiveIndex(index);
@@ -42,12 +42,27 @@ const Gallery = () => {
       ref={ref}
       id="galeria"
       sx={{
+        position: "relative",
+        overflow: "hidden",
         py: { xs: 6, md: 8 },
         px: 2,
         backgroundColor: "var(--surface-main)",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(110deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.32) 45%, rgba(255,255,255,0) 100%)",
+          transform: "translateX(-120%)",
+          animation: inView ? "gallerySweep 0.7s ease-out 0.08s both" : "none",
+          pointerEvents: "none",
+        },
+        "@keyframes gallerySweep": {
+          to: { transform: "translateX(120%)" },
+        },
       }}
     >
-      <Box sx={{ maxWidth: 980, mx: "auto" }}>
+      <Box sx={{ maxWidth: 980, mx: "auto", position: "relative", zIndex: 1 }}>
         <Typography
           sx={{
             mb: { xs: 2.5, md: 3.2 },
@@ -55,6 +70,9 @@ const Gallery = () => {
             fontFamily: "var(--font-title)",
             fontSize: { xs: "2rem", md: "2.45rem" },
             color: "var(--text-primary)",
+            opacity: inView ? 1 : 0,
+            transform: inView ? "translateY(0) scale(1)" : "translateY(52px) scale(0.86)",
+            transition: "all 560ms cubic-bezier(0.17, 0.84, 0.44, 1)",
           }}
         >
           Galeria
@@ -67,6 +85,9 @@ const Gallery = () => {
             fontFamily: "var(--font-body)",
             fontSize: { xs: "0.95rem", md: "1rem" },
             color: "var(--text-secondary)",
+            opacity: inView ? 1 : 0,
+            transform: inView ? "translateY(0) scale(1)" : "translateY(34px) scale(0.92)",
+            transition: "all 560ms cubic-bezier(0.17, 0.84, 0.44, 1) 70ms",
           }}
         >
           Un resumen de los momentos que vamos a celebrar.
@@ -74,7 +95,17 @@ const Gallery = () => {
 
         <Grid container spacing={{ xs: 1.2, sm: 2 }}>
           {images.map((src, index) => (
-            <Grid item xs={6} key={src}>
+            <Grid
+              item
+              xs={6}
+              key={src}
+              sx={{
+                opacity: inView ? 1 : 0,
+                transform: inView ? "none" : "none",
+                filter: inView ? "blur(0)" : "blur(5px)",
+                transition: `all 620ms cubic-bezier(0.17, 0.84, 0.44, 1) ${70 + index * 90}ms`,
+              }}
+            >
               <Box
                 component="button"
                 type="button"
@@ -89,10 +120,9 @@ const Gallery = () => {
                   backgroundColor: "transparent",
                   cursor: "pointer",
                   boxShadow: "0 12px 24px rgba(54, 37, 23, 0.12)",
-                  transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                  transition: "box-shadow 0.25s ease",
                   "&:hover": {
-                    transform: { sm: "translateY(-2px)" },
-                    boxShadow: "0 14px 28px rgba(54, 37, 23, 0.2)",
+                    boxShadow: "0 16px 30px rgba(54, 37, 23, 0.2)",
                   },
                 }}
               >
