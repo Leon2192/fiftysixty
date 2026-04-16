@@ -6,6 +6,7 @@ import InfoEvent from "./components/InfoEvent"
 import Gallery from "./components/Gallery/GalleryPremium"
 import Confirm from "./components/Confirm"
 import EntryAudioModal from "./components/EntryAudioModal"
+import FooterSignature from "./components/FooterSignature"
 
 function App() {
   const [started, setStarted] = useState(false)
@@ -30,6 +31,7 @@ function App() {
           <InfoEvent />
           <Gallery />
           <Confirm />
+          <FooterSignature />
         </>
       )}
     </>
