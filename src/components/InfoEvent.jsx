@@ -64,8 +64,10 @@ const InfoEvent = () => {
             sx={{
               mb: 2.2,
               fontFamily: "var(--font-body)",
-              fontSize: { xs: "1rem", md: "1.05rem" },
-              color: "var(--text-secondary)",
+              fontSize: { xs: "1.45rem", md: "1.95rem" },
+              fontWeight: 700,
+              color: "var(--text-primary)",
+              letterSpacing: "0.02em",
             }}
           >
             1 de Mayo de 2026
