@@ -49,18 +49,39 @@ const EntryAudioModal = ({ open, onSelect }) => {
             width: "100%",
             maxWidth: 540,
             p: { xs: 2.5, sm: 4 },
+            pt: { xs: 6, sm: 6.5 },
             borderRadius: 4,
             border: "1px solid var(--line-color)",
             backgroundColor: "rgba(255, 255, 255, 0.86)",
             boxShadow: "0 16px 40px rgba(65, 45, 26, 0.16)",
             textAlign: "center",
+            overflow: "visible",
           }}
         >
+          <Box
+            component="img"
+            src="/images/15/three.jpeg"
+            alt="Foto destacada"
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: { xs: 84, sm: 96 },
+              height: { xs: 84, sm: 96 },
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: "3px solid #fff",
+              boxShadow: "0 10px 22px rgba(20, 14, 11, 0.28)",
+            }}
+          />
+
           <Typography
             id="entry-audio-title"
             sx={{
               fontFamily: "var(--font-title)",
-              fontSize: { xs: "1.8rem", sm: "2.2rem" },
+              fontSize: { xs: "2.05rem", sm: "2.7rem" },
+              fontWeight: 700,
               color: "var(--text-primary)",
               mb: 3.5,
             }}

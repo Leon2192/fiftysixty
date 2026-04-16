@@ -36,7 +36,7 @@ const Confirm = () => {
           color: "var(--text-primary)",
         }}
       >
-        Confirmación de asistencia
+        ¡Confirmación de asistencia!
       </Typography>
 
       <Typography
@@ -49,8 +49,8 @@ const Confirm = () => {
           lineHeight: 1.6,
         }}
       >
-        Esperamos que seas parte de esta gran celebracion.
-        Confirmanos tu asistencia para organizar todo mejor.
+        ¡Esperamos que seas parte de esta gran celebracion.
+        Confirmanos tu asistencia para organizar todo mejor!
       </Typography>
 
       <Button
@@ -76,7 +76,7 @@ const Confirm = () => {
           },
         }}
       >
-        Confirmar por WhatsApp
+        ¡Confirmar por WhatsApp!
       </Button>
     </Box>
   );
