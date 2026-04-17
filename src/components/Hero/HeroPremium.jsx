@@ -52,7 +52,7 @@ const Hero = ({ enableMusic }) => {
       sx={{
         position: "relative",
         width: "100%",
-        height: "100dvh",
+        height: { xs: "auto", md: "100dvh" },
         overflow: "hidden",
         backgroundColor: "var(--bg-dark)",
         display: "flex",
@@ -66,8 +66,8 @@ const Hero = ({ enableMusic }) => {
         alt="Portada"
         sx={{
           width: "100%",
-          height: "100%",
-          objectFit: "cover",
+          height: { xs: "auto", md: "100%" },
+          objectFit: { xs: "contain", md: "cover" },
           objectPosition: "center",
           display: "block",
         }}
