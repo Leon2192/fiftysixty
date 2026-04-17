@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, IconButton, Dialog, DialogContent } from "@mui/material";
+import { Box, Grid, Typography, IconButton, Dialog, DialogContent, useMediaQuery } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
@@ -27,6 +27,8 @@ const Gallery = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
+  const isMobile = useMediaQuery("(max-width:900px)");
+  const reveal = inView || isMobile;
 
   const openAt = (index) => {
     setActiveIndex(index);
@@ -76,8 +78,8 @@ const Gallery = () => {
             fontFamily: "var(--font-title)",
             fontSize: { xs: "1.85rem", md: "2.3rem" },
             color: "var(--text-primary)",
-            opacity: inView ? 1 : 0,
-            transform: inView ? "translateY(0) scale(1)" : "translateY(52px) scale(0.86)",
+            opacity: reveal ? 1 : 0,
+            transform: reveal ? "translateY(0) scale(1)" : "translateY(52px) scale(0.86)",
             transition: "all 560ms cubic-bezier(0.17, 0.84, 0.44, 1)",
           }}
         >
@@ -91,9 +93,9 @@ const Gallery = () => {
               xs={6}
               key={src}
               sx={{
-                opacity: inView ? 1 : 0,
+                opacity: reveal ? 1 : 0,
                 transform: inView ? "none" : "none",
-                filter: inView ? "blur(0)" : "blur(5px)",
+                filter: reveal ? "blur(0)" : "blur(5px)",
                 transition: `all 620ms cubic-bezier(0.17, 0.84, 0.44, 1) ${70 + index * 90}ms`,
               }}
             >
