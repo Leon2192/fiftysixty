@@ -105,7 +105,7 @@ const Hero = ({ enableMusic }) => {
 
       <audio
         ref={audioRef}
-        src="/cancion1.mp3"
+        src="/cachi.mp3"
         preload="auto"
         loop
       />

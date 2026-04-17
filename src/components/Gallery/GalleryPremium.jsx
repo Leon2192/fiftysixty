@@ -9,12 +9,18 @@ import { Keyboard } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/keyboard";
 
-const images = [
+const previousImages = [
   "/images/15/one.jpeg",
   "/images/15/two.jpeg",
   "/images/15/three.jpeg",
   "/images/15/four.jpeg",
 ];
+
+const cachiImages = [1, 2, 3, 4, 5, 6, 7].map(
+  (number) => `/images/15/cachi/${number}.jpeg`
+);
+
+const images = [...previousImages, ...cachiImages];
 
 const Gallery = () => {
   const [open, setOpen] = useState(false);
@@ -65,32 +71,17 @@ const Gallery = () => {
       <Box sx={{ maxWidth: 980, mx: "auto", position: "relative", zIndex: 1 }}>
         <Typography
           sx={{
-            mb: { xs: 2.5, md: 3.2 },
+            mb: { xs: 2.4, md: 3 },
             textAlign: "center",
             fontFamily: "var(--font-title)",
-            fontSize: { xs: "2rem", md: "2.45rem" },
+            fontSize: { xs: "1.85rem", md: "2.3rem" },
             color: "var(--text-primary)",
             opacity: inView ? 1 : 0,
             transform: inView ? "translateY(0) scale(1)" : "translateY(52px) scale(0.86)",
             transition: "all 560ms cubic-bezier(0.17, 0.84, 0.44, 1)",
           }}
         >
-          Galeria
-        </Typography>
-
-        <Typography
-          sx={{
-            mb: { xs: 3, md: 4 },
-            textAlign: "center",
-            fontFamily: "var(--font-body)",
-            fontSize: { xs: "0.95rem", md: "1rem" },
-            color: "var(--text-secondary)",
-            opacity: inView ? 1 : 0,
-            transform: inView ? "translateY(0) scale(1)" : "translateY(34px) scale(0.92)",
-            transition: "all 560ms cubic-bezier(0.17, 0.84, 0.44, 1) 70ms",
-          }}
-        >
-          Un resumen de los momentos que vamos a celebrar.
+          ¡Te esperamos para celebrar juntos!
         </Typography>
 
         <Grid container spacing={{ xs: 1.2, sm: 2 }}>

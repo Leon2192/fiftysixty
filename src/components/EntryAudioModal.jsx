@@ -25,7 +25,7 @@ const EntryAudioModal = ({ open, onSelect }) => {
           sx={{
             position: "absolute",
             inset: 0,
-            backgroundImage: 'url("/images/15/portada.jpeg")',
+            backgroundImage: 'url("/images/15/Oscar.png")',
             backgroundSize: "cover",
             backgroundPosition: "center",
             transform: "scale(1.08)",
@@ -60,7 +60,7 @@ const EntryAudioModal = ({ open, onSelect }) => {
         >
           <Box
             component="img"
-            src="/images/15/three.jpeg"
+            src="/images/15/one.jpeg"
             alt="Foto destacada"
             sx={{
               position: "absolute",
@@ -86,7 +86,7 @@ const EntryAudioModal = ({ open, onSelect }) => {
               mb: 3.5,
             }}
           >
-            ¡Cumple 60/50 de Fabian y Oscar!
+            ¡50/60 - Cumple Oscar y Fabian!
           </Typography>
 
           <Stack

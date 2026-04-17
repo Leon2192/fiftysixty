@@ -159,18 +159,6 @@ const InfoEvent = () => {
           </Typography>
         </Box>
 
-        <Typography
-          sx={{
-            mb: 3.2,
-            fontFamily: "var(--font-body)",
-            fontSize: { xs: "0.98rem", md: "1rem" },
-            color: "var(--text-primary)",
-            letterSpacing: "0.04em",
-          }}
-        >
-          Te esperamos para celebrar juntos.
-        </Typography>
-
         <Button
           component="a"
           href={MAPS_URL}

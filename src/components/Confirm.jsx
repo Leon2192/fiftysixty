@@ -3,7 +3,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { useInView } from "react-intersection-observer";
 
 const RSVP_URL =
-  "https://wa.me/5491135939460?text=Hola%2C%20confirmo%20mi%20asistencia%20al%20evento%2050%2F60.";
+  "https://wa.me/1533171626?text=Hola%2C%20confirmo%20mi%20asistencia%20al%20evento%2050%2F60.";
 
 const Confirm = () => {
   const { ref, inView } = useInView({
