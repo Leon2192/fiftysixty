@@ -16,11 +16,7 @@ const previousImages = [
   "/images/15/four.jpeg",
 ];
 
-const cachiImages = [1, 2, 3, 4, 5, 6, 7].map(
-  (number) => `/images/15/cachi/${number}.jpeg`
-);
-
-const images = [...previousImages, ...cachiImages];
+const images = [...previousImages];
 
 const Gallery = () => {
   const [open, setOpen] = useState(false);

@@ -6,7 +6,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import { useInView } from "react-intersection-observer";
 
 const Hero = ({ enableMusic }) => {
-  const imageSrc = "/images/15/port.png";
+  const imageSrc = "/images/15/portada.jpeg";
 
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -105,7 +105,7 @@ const Hero = ({ enableMusic }) => {
 
       <audio
         ref={audioRef}
-        src="/cachi.mp3"
+        src="/cancion1.mp3"
         preload="auto"
         loop
       />
